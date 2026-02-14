@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 
-export default function UnsubscribePage() {
+function UnsubscribeContent() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -140,5 +140,13 @@ export default function UnsubscribePage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#f5f5f5" }} />}>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }
