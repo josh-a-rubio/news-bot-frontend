@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
   // Send confirmation email
   await transporter.sendMail({
-    from: `"SysJosh Weekly" <${process.env.GMAIL_USER}>`,
+    from: `"SysJosh Weekly (no-reply)" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: "Confirm your subscription to SysJosh Weekly",
     html: `
