@@ -1,17 +1,24 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { v4 as uuidv4 } from "uuid";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_TOKEN);
 const DB_ID = process.env.SUBSCRIBERS_DATABASE_ID!;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 const NOTION_TOKEN = process.env.NOTION_TOKEN!;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 
 const notionHeaders = {
   "Authorization": `Bearer ${NOTION_TOKEN}`,
   "Content-Type": "application/json",
   "Notion-Version": "2022-06-28",
 };
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
@@ -68,8 +75,8 @@ export async function POST(req: NextRequest) {
   });
 
   // Send confirmation email
-  await resend.emails.send({
-    from: "SysJosh Weekly <onboarding@resend.dev>",
+  await transporter.sendMail({
+    from: `"SysJosh Weekly" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: "Confirm your subscription to SysJosh Weekly",
     html: `
@@ -81,9 +88,6 @@ export async function POST(req: NextRequest) {
           Confirm Subscription
         </a>
         <p style="margin-top: 2rem; font-size: 0.75rem; color: #bbb;">If you didn't sign up for this, you can safely ignore this email.</p>
-        <p style="margin-top: 1rem; font-size: 0.75rem; color: #bbb;">
-          <a href="${BASE_URL}/unsubscribe?token=${token}" style="color: #bbb;">Unsubscribe</a>
-        </p>
       </div>
     `,
   });
