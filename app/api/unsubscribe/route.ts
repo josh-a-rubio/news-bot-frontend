@@ -10,22 +10,21 @@ const notionHeaders = {
 };
 
 export async function POST(req: NextRequest) {
-  const { email } = await req.json();
+  const { email, token } = await req.json();
 
-  if (!email) {
-    return NextResponse.json({ error: "Missing email." }, { status: 400 });
+  if (!email && !token) {
+    return NextResponse.json({ error: "Missing email or token." }, { status: 400 });
   }
 
-  // Find subscriber by email
+  // Find subscriber by token or email
+  const filter = token
+    ? { property: "Token", rich_text: { equals: token } }
+    : { property: "Email", email: { equals: email } };
+
   const searchRes = await fetch(`https://api.notion.com/v1/databases/${DB_ID}/query`, {
     method: "POST",
     headers: notionHeaders,
-    body: JSON.stringify({
-      filter: {
-        property: "Email",
-        email: { equals: email },
-      },
-    }),
+    body: JSON.stringify({ filter }),
   });
 
   const searchData = await searchRes.json();
@@ -36,15 +35,12 @@ export async function POST(req: NextRequest) {
 
   const page = searchData.results[0];
 
-  // Update status to unsubscribed
   await fetch(`https://api.notion.com/v1/pages/${page.id}`, {
     method: "PATCH",
     headers: notionHeaders,
     body: JSON.stringify({
       properties: {
-        Status: {
-          select: { name: "unsubscribed" },
-        },
+        Status: { select: { name: "unsubscribed" } },
       },
     }),
   });

@@ -1,18 +1,38 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 function UnsubscribeContent() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+
+  // If token in URL, auto-unsubscribe
+  useEffect(() => {
+    if (token) {
+      setStatus("loading");
+      fetch("/api/unsubscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) setStatus("success");
+          else setStatus("error");
+        })
+        .catch(() => setStatus("error"));
+    }
+  }, [token]);
 
   const handleUnsubscribe = async () => {
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
-
     setStatus("loading");
     try {
       const res = await fetch("/api/unsubscribe", {
@@ -87,7 +107,7 @@ function UnsubscribeContent() {
           </>
         )}
 
-        {status === "idle" && (
+        {status === "idle" && !token && (
           <>
             <h1 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#111" }}>
               Unsubscribe from SysJosh Weekly
