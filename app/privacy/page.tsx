@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
         <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "#111", marginBottom: "0.5rem" }}>Contact</h2>
         <p style={{ color: "#555", lineHeight: 1.7 }}>
-          Questions? Reach out at <a href="mailto:hello@sysjosh.com" style={{ color: "#4A90D9" }}>rubiojosha@gmail.com</a>
+          Questions? Reach out at <a href="mailto:rubiojosha@gmail.com" style={{ color: "#4A90D9" }}>rubiojosha@gmail.com</a>
         </p>
       </div>
     </div>
