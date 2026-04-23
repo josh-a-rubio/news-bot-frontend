@@ -389,7 +389,7 @@ export default function Home() {
 
       <header className={`fixed-header ${scrolled ? "visible" : ""}`}>
         <div className="header-left">
-          <span className="header-icon">🫙</span>
+          <span className="header-icon">☕️</span>
           <div className="header-text">
             <span className="header-title">SysJosh Weekly</span>
             <span className="header-tagline">Your Sunday morning tech briefing</span>
