@@ -404,7 +404,7 @@ export default function Home() {
         <div className="hero-inner">
           <div className="hero-left">
             <div className="hero-main">
-              <span className="icon">🫙</span>
+              <span className="icon">☕️</span>
               <div className="hero-text">
                 <h1 className="hero-title">SysJosh Weekly</h1>
                 <p className="hero-tagline">Your Sunday morning tech briefing</p>
