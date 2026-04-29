@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     subject: "Confirm your subscription to SysJosh Weekly",
     html: `
       <div style="font-family: Inter, sans-serif; max-width: 460px; margin: 0 auto; padding: 2rem;">
-        <h2 style="font-size: 1.5rem; font-weight: 700; color: #111;">🫙 SysJosh Weekly</h2>
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: #111;">☕️ SysJosh Weekly</h2>
         <p style="color: #444; line-height: 1.6;">Thanks for signing up! Click the button below to confirm your subscription.</p>
         <a href="${BASE_URL}/confirm?token=${token}"
            style="display: inline-block; margin-top: 1.5rem; padding: 0.875rem 2rem; background: #4A90D9; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600;">
