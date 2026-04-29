@@ -47,7 +47,7 @@ function ConfirmContent() {
         textAlign: "center",
         boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
       }}>
-        <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🫙</div>
+        <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>☕️</div>
 
         {status === "loading" && (
           <>
